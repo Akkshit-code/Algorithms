@@ -1,39 +1,41 @@
 import java.util.*;
 
 class Solution {
-    public static List<List<Integer>> fourSum(int[] nums, int target) {
+    public static boolean checkeven(int [] nums){
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]%2!=0) return false;
+        }
+        return true;
+    }
+    public static boolean checkzero(int []nums){
+        for (int i=0;i<nums.length;i++){
+            if(nums[i]!=0) return false;
+        }
+        return true;
+    }
+    public static int minOperations(int[] nums) {
         int n=nums.length;
-        Set<List<Integer>> s=new HashSet<>();
-        List<List<Integer>> Biglist=new ArrayList<>();
-        long sum=0;
-        Arrays.sort(nums);
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                int x=j+1;
-                int y=n-1;
-                while(x<y){
-                    sum=0;
-                    sum+=(nums[i]+nums[j]+nums[x]+nums[y]);
-                    if(sum==target){
-                        s.add(Arrays.asList(nums[i],nums[j],nums[x],nums[y]));
-                        x++;
-                        y--;
-                    }
-                    else if(sum>target) y--;
-                    else x++;
+        int count=1;
+        while (!checkzero(nums)){
+            if(checkeven(nums)){
+                for(int j=0;j<n;j++){
+                    if(nums[j]%2==0)
+                    nums[j]=nums[j]/2;
                 }
+                count++;
+            }
+            else{
+                for(int k=0;k<n;k++){
+                    if(nums[k]%2!=0) nums[k]=nums[k]-1;
+                }
+                count++;
             }
         }
-        Biglist.addAll(s);
-        return Biglist;
+        return count;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1000000000,1000000000,1000000000,1000000000};
-        int target = -294967296;
-        List<List<Integer>> result = fourSum(nums, target);
-        for (List<Integer> list : result) {
-            System.out.println(list);
-        }
+        int [] nums={3,2,2,4};
+        System.out.println(minOperations(nums));
     }
 }
